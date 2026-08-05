@@ -15,7 +15,12 @@ variable "existing_resource_group_name" {
   type        = string
 }
 
-variable "location" {
+variable "location" { # tflint-ignore: terraform_unused_declarations
+  # Intentionally kept even though nothing currently references it: this
+  # is a documented override point for anyone running this outside a
+  # KodeKloud playground, where location isn't forced by an existing
+  # resource group. Deleting it would break any terraform.tfvars created
+  # from an older version of terraform.tfvars.example that still sets it.
   description = "Azure region to deploy into. NOTE: only used as a fallback / for module defaults -- actual deployment location is taken from the existing resource group's location, since playgrounds restrict you to specific regions anyway (West US, East US, Central US, South Central US)."
   type        = string
   default     = "eastus"
@@ -59,7 +64,7 @@ variable "admin_cidr" {
 variable "tags" {
   description = "Common tags applied to all resources"
   type        = map(string)
-  default = {
+  default     = {
     project     = "azure-iac-terraform-project"
     managed_by  = "terraform"
     environment = "dev"
