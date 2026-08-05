@@ -15,15 +15,15 @@ data "azurerm_resource_group" "this" {
 module "network" {
   source = "./modules/network"
 
-  project_name           = var.project_name
-  environment            = var.environment
-  location               = data.azurerm_resource_group.this.location
-  resource_group_name    = data.azurerm_resource_group.this.name
-  vnet_address_space     = var.vnet_address_space
-  public_subnet_prefix   = var.public_subnet_prefix
-  private_subnet_prefix  = var.private_subnet_prefix
-  admin_cidr             = var.admin_cidr
-  tags                   = var.tags
+  project_name          = var.project_name
+  environment           = var.environment
+  location              = data.azurerm_resource_group.this.location
+  resource_group_name   = data.azurerm_resource_group.this.name
+  vnet_address_space    = var.vnet_address_space
+  public_subnet_prefix  = var.public_subnet_prefix
+  private_subnet_prefix = var.private_subnet_prefix
+  admin_cidr            = var.admin_cidr
+  tags                  = var.tags
 }
 
 resource "random_password" "vm_admin" {
@@ -39,38 +39,38 @@ module "keyvault" {
   source = "./modules/keyvault"
 
   project_name        = var.project_name
-  environment          = var.environment
-  location             = data.azurerm_resource_group.this.location
-  resource_group_name  = data.azurerm_resource_group.this.name
-  tenant_id            = data.azurerm_client_config.current.tenant_id
-  admin_object_id      = data.azurerm_client_config.current.object_id
-  private_subnet_id    = module.network.private_subnet_id
-  admin_cidr           = var.admin_cidr
-  vm_admin_password    = random_password.vm_admin.result
-  tags                 = var.tags
+  environment         = var.environment
+  location            = data.azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  admin_object_id     = data.azurerm_client_config.current.object_id
+  private_subnet_id   = module.network.private_subnet_id
+  admin_cidr          = var.admin_cidr
+  vm_admin_password   = random_password.vm_admin.result
+  tags                = var.tags
 }
 
 module "compute" {
   source = "./modules/compute"
 
-  project_name       = var.project_name
-  environment        = var.environment
-  location           = data.azurerm_resource_group.this.location
+  project_name        = var.project_name
+  environment         = var.environment
+  location            = data.azurerm_resource_group.this.location
   resource_group_name = data.azurerm_resource_group.this.name
-  private_subnet_id = module.network.private_subnet_id
-  vm_size           = var.vm_size
-  admin_username    = var.admin_username
-  admin_password    = random_password.vm_admin.result
-  tags              = var.tags
+  private_subnet_id   = module.network.private_subnet_id
+  vm_size             = var.vm_size
+  admin_username      = var.admin_username
+  admin_password      = random_password.vm_admin.result
+  tags                = var.tags
 }
 
 module "storage" {
   source = "./modules/storage"
 
   project_name        = var.project_name
-  environment          = var.environment
-  location             = data.azurerm_resource_group.this.location
-  resource_group_name  = data.azurerm_resource_group.this.name
+  environment         = var.environment
+  location            = data.azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
   private_subnet_id   = module.network.private_subnet_id
   admin_cidr          = var.admin_cidr
   tags                = var.tags
@@ -80,9 +80,9 @@ module "appservice" {
   source = "./modules/appservice"
 
   project_name        = var.project_name
-  environment          = var.environment
-  location             = data.azurerm_resource_group.this.location
-  resource_group_name  = data.azurerm_resource_group.this.name
+  environment         = var.environment
+  location            = data.azurerm_resource_group.this.location
+  resource_group_name = data.azurerm_resource_group.this.name
   tags                = var.tags
 }
 
