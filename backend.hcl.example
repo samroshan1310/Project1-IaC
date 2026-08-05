@@ -1,0 +1,28 @@
+# Copy to backend.hcl and fill in real values, then run:
+#   terraform init -backend-config=backend.hcl
+#
+# Do NOT commit backend.hcl -- it's in .gitignore already.
+
+# Get this with: az account show --query id -o tsv
+# The azurerm backend doesn't reliably infer the subscription from your
+# az cli session -- leaving this blank causes requests with an empty
+# subscription ID and a confusing "malformed subscription identifier"
+# error, so set it explicitly.
+subscription_id       = "REPLACE_WITH_YOUR_PLAYGROUND_SUBSCRIPTION_ID"
+
+resource_group_name   = "REPLACE_WITH_YOUR_EXISTING_PLAYGROUND_RG"
+storage_account_name   = "REPLACE_WITH_YOUR_UNIQUE_STORAGE_ACCOUNT_NAME"
+# Get this with:
+#   az storage account keys list --account-name <storage_account_name> \
+#     --resource-group <resource_group_name> --query "[0].value" -o tsv
+#
+# Why a key instead of Azure AD auth: the alternative (use_azuread_auth =
+# true) needs a Storage Blob Data Contributor role assignment, which
+# needs Microsoft.Authorization/roleAssignments/write -- exactly the
+# permission Contributor-only playground sessions exclude. The account
+# key is a control-plane secret (listing it needs only Contributor), so
+# it's the correct path here, not a workaround.
+access_key             = "REPLACE_WITH_STORAGE_ACCOUNT_KEY"
+
+container_name         = "tfstate"
+key                    = "project1.terraform.tfstate"
