@@ -1,0 +1,12 @@
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+backend.hcl
+*.tfplan
+tfplan
+crash.log
+.env
+checkov-results.sarif
+tfsec-results.sarif
