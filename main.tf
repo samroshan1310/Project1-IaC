@@ -85,7 +85,7 @@ module "appservice" {
   resource_group_name = data.azurerm_resource_group.this.name
   tags                = var.tags
 }
-
+ 
 # Grant the App Service's managed identity read access to Key Vault
 # secrets. Access policy (not role assignment) so this works under a
 # Contributor-only sandbox subscription -- see modules/keyvault/main.tf
