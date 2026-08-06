@@ -13,6 +13,7 @@ variable "environment" {
 variable "existing_resource_group_name" {
   description = "Name of the pre-existing resource group provided by the KodeKloud playground (find it with `az group list -o table` -- playgrounds don't allow creating additional resource groups)"
   type        = string
+  default     = "kml_rg_main-1ad0a5fabf31410f"
 }
 
 variable "location" { # tflint-ignore: terraform_unused_declarations
